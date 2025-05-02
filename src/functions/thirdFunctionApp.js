@@ -36,7 +36,7 @@ app.http('thirdFunctionApp', {
       };
 
     } catch (error) {
-      context.log.error('Error creating resource group:', error);
+      context.log('Error creating resource group:', error);
       return {
         status: 500,
         body: 'Failed to create resource group.'
