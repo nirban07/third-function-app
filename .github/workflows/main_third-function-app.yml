@@ -74,7 +74,7 @@ jobs:
       - name: Deploy ARM Template
         uses: azure/arm-deploy@v2
         with:
-          # resourceGroupName: 'first-function-app-resource-grp'
+          resourceGroupName: 'first-function-app-resource-grp'
           template: 'infra/azure-function-app.json'
           parameters: 'infra/azure-function-app.parameters.json sites_third_function_app_name=${{ env.FUNCTION_APP_NAME }}'
           deploymentName: 'Deploy-Function-App-${{ github.run_id }}'
