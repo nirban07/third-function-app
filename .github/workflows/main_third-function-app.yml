@@ -9,7 +9,7 @@ on:
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # Path to the function app project
   NODE_VERSION: '20.x' # Node.js version
-  FUNCTION_APP_NAME: 'skydive-five' # Set to the desired Function App name (e.g., skydive-two or third-function-app)
+  FUNCTION_APP_NAME: 'skydive-two' # Set to the desired Function App name (e.g., skydive-two or third-function-app)
 
 jobs:
   build:
