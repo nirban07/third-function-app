@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js project to Azure Function App - third-function-app
+name: Build and deploy Node.js project to Azure Function App
 
 on:
   push:
@@ -10,17 +7,18 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '20.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # Path to the function app project
+  NODE_VERSION: '20.x' # Node.js version
+  FUNCTION_APP_NAME: 'skydive-two' # Set to the desired Function App name (e.g., skydive-two or third-function-app)
 
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
-      
+      contents: read # Required for actions/checkout
+
     steps:
-      - name: 'Checkout GitHub Action'
+      - name: Checkout GitHub Action
         uses: actions/checkout@v4
 
       - name: Setup Node ${{ env.NODE_VERSION }} Environment
@@ -28,7 +26,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: 'Resolve Project Dependencies Using Npm'
+      - name: Resolve Project Dependencies Using Npm
         shell: pwsh
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
@@ -36,6 +34,13 @@ jobs:
           npm run build --if-present
           npm run test --if-present
           popd
+
+      - name: Rename function file to match Function App name
+        shell: pwsh
+        run: |
+          if (Test-Path "thirdFunctionApp.js") {
+            Move-Item -Path "thirdFunctionApp.js" -Destination "${{ env.FUNCTION_APP_NAME }}.js"
+          }
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -47,15 +52,18 @@ jobs:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write # Required for requesting the JWT for Azure login
+      contents: read # Required for actions/checkout
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: node-app
-      
+
+      - name: Checkout repository for ARM template
+        uses: actions/checkout@v4
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -63,11 +71,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7732A1EB8B39466E96665CEEA2821818 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_AD8FBCFB28FB4F3CB13FA69233A0A55A }}
 
-      - name: 'Run Azure Functions Action'
+      - name: Deploy ARM Template
+        uses: azure/arm-deploy@v2
+        with:
+          resourceGroupName: 'first-function-app-resource-grp'
+          template: 'infra/azure-function-app.json'
+          parameters: 'infra/azure-function-app.parameters.json sites_third_function_app_name=${{ env.FUNCTION_APP_NAME }}'
+          deploymentName: 'Deploy-Function-App-${{ github.run_id }}'
+
+      - name: Run Azure Functions Action
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: 'third-function-app'
+          app-name: ${{ env.FUNCTION_APP_NAME }}
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          
