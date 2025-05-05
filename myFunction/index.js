@@ -1,5 +1,5 @@
 const { app } = require('@azure/functions');
-require('./myfunctions');
+// require('./myfunctions');
 
 app.setup({
     enableHttpStream: true,
