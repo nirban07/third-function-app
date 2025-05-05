@@ -11,5 +11,5 @@
     "@azure/functions": "^4.0.0",
     "@azure/identity": "^4.9.1"
   },
-  "main": "myfunction/myfunctions.js"
+  "main": "myfunction/index.js"
 }
