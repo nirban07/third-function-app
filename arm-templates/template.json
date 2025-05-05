@@ -29,6 +29,11 @@
       },
       "properties": {
         "enabled": true,
+        "azureStorageAccounts": {
+        "myStorageAccount": {
+            "connectionString": "[listKeys('skydive', '2019-04-01').key1]"
+          }
+        },
         "hostNameSslStates": [
           {
             "name": "[concat(parameters('sites_third_function_app_name'), '.canadacentral-01.azurewebsites.net')]",
@@ -217,6 +222,17 @@
         "end_time": "2025-05-02T12:57:51.390082Z",
         "active": true
       }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2021-09-01",
+      "location": "Canada Central",
+      "name": "skydive",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {}
     }
   ]
 }
