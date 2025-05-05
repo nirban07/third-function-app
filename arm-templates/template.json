@@ -30,9 +30,9 @@
       "properties": {
         "enabled": true,
         "azureStorageAccounts": {
-        "myStorageAccount": {
-            "connectionString": "[listKeys('skydive', '2019-04-01').keys[0].value]"
-          }
+          "myStorageAccount": {
+              "connectionString": "[listKeys('skydive', '2019-04-01').keys[0].value]"
+            }
         },
         "hostNameSslStates": [
           {
@@ -55,6 +55,12 @@
         "vnetImagePullEnabled": false,
         "vnetContentShareEnabled": false,
         "siteConfig": {
+          "appSettings": [
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[listKeys('skydive', '2019-04-01').keys[0].value]"
+            }
+          ],
           "numberOfWorkers": 1,
           "acrUseManagedIdentityCreds": false,
           "alwaysOn": false,
