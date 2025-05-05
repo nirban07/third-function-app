@@ -31,7 +31,7 @@
         "enabled": true,
         "azureStorageAccounts": {
         "myStorageAccount": {
-            "connectionString": "[listKeys('skydive', '2019-04-01').key1]"
+            "connectionString": "[listKeys('skydive', '2019-04-01').keys[0].value]"
           }
         },
         "hostNameSslStates": [
