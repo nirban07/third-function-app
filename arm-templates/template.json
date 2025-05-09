@@ -71,6 +71,14 @@
             {
               "name": "AzureWebJobsStorage",
               "value": "[listKeys('skydive', '2019-04-01').keys[0].value]"
+            },
+            {
+              "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+              "value": "[reference(resourceId('microsoft.insights/components', parameters('appInsightsName')), '2020-02-02').ConnectionString]"
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "~20"
             }
           ],
           "numberOfWorkers": 1,
