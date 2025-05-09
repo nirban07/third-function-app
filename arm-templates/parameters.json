@@ -7,6 +7,9 @@
         },
         "serverfarms_ASP_firstfunctionappresourcegrp_96f4_externalid": {
             "value": null
+        },
+        "appInsightsName": {
+            "value": null
         }
     }
 }

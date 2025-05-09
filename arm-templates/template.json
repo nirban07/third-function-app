@@ -9,7 +9,11 @@
     "serverfarms_ASP_firstfunctionappresourcegrp_96f4_externalid": {
       "defaultValue": "/subscriptions/621cec32-fab8-4552-ab21-d48ea699fe04/resourceGroups/first-function-app-resource-grp/providers/Microsoft.Web/serverfarms/ASP-firstfunctionappresourcegrp-96f4",
       "type": "String"
-    }
+    },
+    "appInsightsName": {
+    "defaultValue": "third-function-app-insights",
+    "type": "String"
+  }
   },
   "variables": {},
   "resources": [
@@ -28,6 +32,9 @@
         "type": "SystemAssigned"
       },
       "properties": {
+        "ApplicationInsights": {
+            "id": "[resourceId('microsoft.insights/components', variables('appInsightsName'))]"
+        },
         "enabled": true,
         "azureStorageAccounts": {
           "myStorageAccount": {
