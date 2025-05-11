@@ -74,7 +74,7 @@ jobs:
         with:
           resourceGroupName: 'first-function-app-resource-grp'
           template: 'arm-templates/template.json'
-          parameters: 'arm-templates/parameters.json 
+          parameters: 'arm-templates/parameters.json'
           deploymentName: 'Deploy-Function-App-${{ github.run_id }}'
 
       - name: Run Azure Functions Action
